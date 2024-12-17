@@ -1,0 +1,12 @@
+# Ignore Firebase directory containing serviceAccountKey.json
+/Firebase/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore build output
+/bin/
+/obj/
