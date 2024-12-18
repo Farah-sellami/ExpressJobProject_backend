@@ -25,7 +25,7 @@ namespace JobExpressBack.Controllers
             return Ok(categories);
         }
 
-        [HttpGet(" getCategorieById/{id}")]
+        [HttpGet("getCategorieById/{id}")]
         [Authorize] // Accessible à tous les utilisateurs connectés
         public async Task<IActionResult> GetCategorie(int id)
         {

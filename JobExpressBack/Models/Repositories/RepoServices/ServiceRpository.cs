@@ -19,6 +19,7 @@ namespace JobExpressBack.Models.Repositories.RepoServices
                 .Where(s => s.CategorieID == categoryId)
                 .Include(s => s.Categorie)
                 .Include(s => s.Professionnels)
+                
                 .ToListAsync();
         }
 

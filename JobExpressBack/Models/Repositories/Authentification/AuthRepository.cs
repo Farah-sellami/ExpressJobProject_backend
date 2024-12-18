@@ -120,7 +120,7 @@ namespace JobExpressBack.Models.Repositories.Authentification
             authModel.Username = user.UserName;
             authModel.Email = user.Email;
             authModel.Token = token;
-            authModel.ExpiresOn = DateTime.UtcNow.AddDays(7);
+            authModel.ExpiresOn = DateTime.UtcNow.AddHours(1);
 
             // Ajouter le rôle de l'utilisateur
             var roles = await userManager.GetRolesAsync(user);
@@ -154,7 +154,7 @@ namespace JobExpressBack.Models.Repositories.Authentification
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(7),
+                expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
