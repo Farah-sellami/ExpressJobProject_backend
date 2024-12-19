@@ -6,5 +6,6 @@ namespace JobExpressBack.Models.Repositories.RepoDemandeService
     {
         Task<DemandeService> GetByIds(string clientId, string professionnelId, DateTime dateDemande);
         Task DeleteDemandeService(string clientId, string professionnelId, DateTime dateDemande);
+        Task<IEnumerable<DemandeService>> GetAllWithDetails();
     }
 }

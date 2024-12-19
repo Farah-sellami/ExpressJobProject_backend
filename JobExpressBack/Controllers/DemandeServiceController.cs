@@ -36,7 +36,7 @@ namespace JobExpressBack.Controllers
                 return Unauthorized(new { Message = "Accès interdit. Uniquement les administrateurs peuvent voir toutes les demandes." });
             }
 
-            var demandeServices = await demandeServiceRepo.GetAll();
+            var demandeServices = await demandeServiceRepo.GetAllWithDetails();
             return Ok(demandeServices);
         }
 

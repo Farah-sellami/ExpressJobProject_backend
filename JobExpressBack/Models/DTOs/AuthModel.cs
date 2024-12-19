@@ -13,5 +13,6 @@ namespace JobExpressBack.Models.DTOs
         public string Token { get; set; }
         public DateTime ExpiresOn { get; set; }
         public string Role { get; set; }
+        public string uid { get; set; }
     }
 }

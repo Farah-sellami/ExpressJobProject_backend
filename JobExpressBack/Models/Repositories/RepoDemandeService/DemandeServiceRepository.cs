@@ -33,5 +33,13 @@ namespace JobExpressBack.Models.Repositories.RepoDemandeService
                 await exJobDBContext.SaveChangesAsync();
             }
         }
+
+        public async Task<IEnumerable<DemandeService>> GetAllWithDetails()
+        {
+            return await exJobDBContext.DemandeServices
+                .Include(d => d.Client)
+                .Include(d => d.Professionnel)
+                .ToListAsync();
+        }
     }
 }

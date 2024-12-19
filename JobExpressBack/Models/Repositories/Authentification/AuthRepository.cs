@@ -126,6 +126,9 @@ namespace JobExpressBack.Models.Repositories.Authentification
             var roles = await userManager.GetRolesAsync(user);
             authModel.Role = roles.FirstOrDefault();  // Récupère le premier rôle assigné à l'utilisateur
 
+            // Ajouter l'uid
+            authModel.uid = await userManager.GetUserIdAsync(user);
+
             //update les activités utilisateur
             user.LastLoginDate = DateTime.UtcNow;
             await userManager.UpdateAsync(user);

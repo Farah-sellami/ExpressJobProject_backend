@@ -60,7 +60,8 @@ namespace JobExpressBack.Controllers
                 Email = result.Email,
                 Role = result.Role,  // Ajout du rôle ici
                 Token = result.Token,
-                ExpiresOn = result.ExpiresOn
+                ExpiresOn = result.ExpiresOn,
+                Uid = result.uid
             });
         }
 
