@@ -21,9 +21,7 @@ namespace JobExpressBack.Models.DTOs
         public DateTime? LastLoginDate { get; set; } // Stocke la date et l'heure de la dernière connexion
         public string? Skills { get; set; } // Liste des compétences sous forme de texte
         public string? Disponibility { get; set; } // Exemple : JSON décrivant le calendrier
-        //stocker le token FCM du professionnel
-        //Ce champ est utilisé pour envoyer des notifications push via Firebase Cloud Messaging (FCM)
-        public string? FcmToken { get; set; }  // Le token FCM
+       
         // Statistiques pour les professionnels
         public int ServicesProvidedCount { get; set; }
         public int YearsOfExperience { get; set; } // Nombre d'années d'expérience

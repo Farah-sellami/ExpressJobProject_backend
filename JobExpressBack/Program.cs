@@ -62,21 +62,6 @@ var cloudinary = new Cloudinary(new Account(
 // Ajouter Cloudinary en tant que service singleton
 builder.Services.AddSingleton(cloudinary);
 
-/*Firebase Cloud Messaging (FCM). Firebase pour envoyer des notifications push en temps réel
-// Charger la clé de service Firebase
-var pathToServiceAccountKey = Path.Combine(Directory.GetCurrentDirectory(), "Firebase", "expressjobnotification-3f007c36ed24.json");
-if (!File.Exists(pathToServiceAccountKey))
-{
-    throw new FileNotFoundException("Le fichier de clé de service Firebase est introuvable.");
-}
-
-// Initialiser Firebase avec la clé
-FirebaseApp.Create(new AppOptions()
-{
-    Credential = GoogleCredential.FromFile(pathToServiceAccountKey)
-});
-
-*/
 
 // Adding Authentication and Authorization
 builder.Services.AddAuthentication(options =>

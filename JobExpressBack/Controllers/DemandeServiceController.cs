@@ -3,7 +3,6 @@ using JobExpressBack.Models.DTOs;
 using JobExpressBack.Models.Entities;
 using JobExpressBack.Models.Repositories;
 using JobExpressBack.Models.Repositories.RepoDemandeService;
-using JobExpressBack.Models.Repositories.RepoNotification;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -80,7 +79,7 @@ namespace JobExpressBack.Controllers
                 return BadRequest(new { Message = "Les données de la demande de service sont invalides." });
             }
             // Extraire l'ID du client authentifié depuis le token
-            var clientId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; // Récupérer l'ID du client depuis le token
+            var clientId = User.FindFirst("uid")?.Value; // Récupérer l'ID du client depuis le token
 
             if (clientId == null)
             {
@@ -99,11 +98,6 @@ namespace JobExpressBack.Controllers
                 Console.WriteLine($"Professionnel introuvable pour l'ID : {demandeService.ProfessionnelId}");
                 return NotFound(new { Message = "Professionnel introuvable." });
             }
-            else if (string.IsNullOrEmpty(professionnel.FcmToken))
-            {
-                Console.WriteLine($"FcmToken manquant pour le professionnel ID : {demandeService.ProfessionnelId}");
-                return BadRequest(new { Message = "FcmToken non disponible pour le professionnel." });
-            }
 
             // Ajouter la demande au dépôt
             await demandeServiceRepo.Add(demandeService);
@@ -119,63 +113,8 @@ namespace JobExpressBack.Controllers
             {
                 return StatusCode(500, new { Message = "Erreur lors de la récupération de la demande après création." });
             }
-
-            // Envoyer la notification via Firebase Cloud Messaging
-            try
-            {
-                var firebaseService = new FirebaseService();
-                await firebaseService.SendNotificationAsync(professionnel.FcmToken);
-
-                return CreatedAtAction(nameof(CreateDemandeService), new
-                {
-                    demandeService.ClientId,
-                    demandeService.ProfessionnelId,
-                    demandeService.DateDemande
-                }, new { Message = "Demande de service créée et notification envoyée." });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erreur lors de l'envoi de la notification : {ex.Message}");
-                return StatusCode(500, new { Message = "Erreur interne lors de l'envoi de la notification." });
-            }
+            return Ok(demandeAvecRelations);
         }
-
-            // Méthode fictive pour récupérer le token FCM d'un professionnel
-            private async Task<string> GetProfessionnelTokenAsync(DemandeService demandeService)
-        {
-            if (demandeService.Professionnel == null)
-            {
-                // Charger la relation si elle n'est pas incluse
-                demandeService.Professionnel = await userManager.FindByIdAsync(demandeService.ProfessionnelId);
-            }
-
-            if (demandeService.Professionnel?.FcmToken == null)
-            {
-                Console.WriteLine($"Token FCM introuvable pour le professionnel ID {demandeService.ProfessionnelId}.");
-                return null;
-            }
-
-            return demandeService.Professionnel.FcmToken;
-        }
-
-
-        /**cette méthode depuis l'application cliente pour mettre à jour le FcmToken chaque fois que l'application est démarrée ou que le FcmToken est rafraîchi.**/
-        [HttpPost("update-token-fcm")]
-        [Authorize]
-        public async Task<IActionResult> UpdateFcmToken([FromBody] string token)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var professionnel = await userManager.FindByIdAsync(userId);
-            if (professionnel == null)
-            {
-                return NotFound(new { Message = "Utilisateur non trouvé." });
-            }
-
-            professionnel.FcmToken = token;
-            await userManager.UpdateAsync(professionnel);
-            return Ok(new { Message = "Token FCM mis à jour." });
-        }
-
 
         [HttpPut("{clientId}/{professionnelId}/{dateDemande}")]
         [Authorize(Roles = "Client")]
