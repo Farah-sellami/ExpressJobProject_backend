@@ -50,6 +50,15 @@ namespace JobExpressBack.Models.Repositories.RepoServices
                 .ToListAsync();
         }
 
+        public async Task<Service> GetServiceByIdWithDetails(int serviceId)
+        {
+            return await exJobDBContext.Services
+                .Include(s => s.Categorie)        // Inclure la catégorie
+                .Include(s => s.Professionnels)   // Inclure les professionnels
+                .FirstOrDefaultAsync(s => s.ServiceID == serviceId);
+        }
+
+
 
     }
 }

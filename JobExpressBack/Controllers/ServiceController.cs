@@ -32,7 +32,7 @@ namespace JobExpressBack.Controllers
        
         public async Task<IActionResult> GetService(int id)
         {
-            var service = await serviceRepository.GetById(id);
+            var service = await serviceRepository.GetServiceByIdWithDetails(id);
             if (service == null)
             {
                 return NotFound();

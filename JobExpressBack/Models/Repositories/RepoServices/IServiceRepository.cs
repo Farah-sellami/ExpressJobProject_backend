@@ -7,5 +7,6 @@ namespace JobExpressBack.Models.Repositories.RepoServices
         Task<IEnumerable<Service>> GetServicesByCategory(int categoryId);
         Task<Service> CreateServiceWithCategory(Service service);
         Task<IEnumerable<Service>> GetAllServicesWithDetails();
+        Task<Service> GetServiceByIdWithDetails(int serviceId);
     }
 }
