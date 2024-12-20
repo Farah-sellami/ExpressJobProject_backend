@@ -41,5 +41,17 @@ namespace JobExpressBack.Models.Repositories.RepoDemandeService
                 .Include(d => d.Professionnel)
                 .ToListAsync();
         }
+
+        public async Task<int> GetTotalDemandeCount()
+        {
+            return await exJobDBContext.DemandeServices.CountAsync();
+        }
+
+        public async Task<int> GetDemandeCountByProfessional(string professionnelId)
+        {
+            return await exJobDBContext.DemandeServices
+                                 .Where(d => d.ProfessionnelId == professionnelId)
+                                 .CountAsync();
+        }
     }
 }

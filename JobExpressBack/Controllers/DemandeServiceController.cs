@@ -153,5 +153,23 @@ namespace JobExpressBack.Controllers
 
             return NoContent();
         }
+
+        // Méthode pour obtenir le nombre total de demandes de service
+        [HttpGet("GetTotalDemandeServiceCount")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetTotalDemandeServiceCount()
+        {
+            var totalCount = await demandeServiceRepo.GetTotalDemandeCount();
+            return Ok(new { TotalCount = totalCount });
+        }
+
+        // Méthode pour obtenir le nombre de demandes de service par professionnel
+        [HttpGet("GetDemandeServiceCountByProfessional/{professionnelId}")]
+        [Authorize(Roles = "Admin,Professionnel")]
+        public async Task<IActionResult> GetDemandeServiceCountByProfessional(string professionnelId)
+        {
+            var count = await demandeServiceRepo.GetDemandeCountByProfessional(professionnelId);
+            return Ok(new { ProfessionalId = professionnelId, Count = count });
+        }
     }
 }

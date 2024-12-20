@@ -1,4 +1,5 @@
 ﻿using CloudinaryDotNet.Actions;
+using JobExpressBack.Models;
 using JobExpressBack.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,10 +17,12 @@ namespace JobExpressBack.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ExJobDBContext exJobDBContext;
 
-        public ProfileController(UserManager<ApplicationUser> userManager)
+        public ProfileController(UserManager<ApplicationUser> userManager, ExJobDBContext exJobDBContext)
         {
             _userManager = userManager;
+            this.exJobDBContext = exJobDBContext;
         }
 
         //Admin, client et professionnel peuvent consulter leurs propres données.
@@ -217,6 +220,45 @@ namespace JobExpressBack.Controllers
 
             return Ok(new { Users = usersList });
         }
+
+        // GET: api/Profile/CountClients
+        [HttpGet("CountClients")]
+        [Authorize(Roles = "Admin")] // Seuls les administrateurs peuvent accéder à ces information
+          public async Task<ActionResult<int>> CountClients()
+        {
+            var users = await exJobDBContext.Users.ToListAsync();
+            int count = 0;
+
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, "Client"))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        // GET: api/Profile/CountProfessionals
+        [HttpGet("CountProfessionals")]
+        [Authorize(Roles = "Admin")] // Seuls les administrateurs peuvent accéder à ces informations
+        public async Task<ActionResult<int>> CountProfessionals()
+       {
+            var users = await exJobDBContext.Users.ToListAsync();
+            int count = 0;
+
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, "Professionnel"))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
 
 
     }
