@@ -7,6 +7,7 @@ using JobExpressBack.Models.Entities;
 using JobExpressBack.Models.Repositories;
 using JobExpressBack.Models.Repositories.Authentification;
 using JobExpressBack.Models.Repositories.RepoDemandeService;
+using JobExpressBack.Models.Repositories.RepoNotification;
 using JobExpressBack.Models.Repositories.RepoServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -48,7 +49,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<IServiceRepository, ServiceRpository>();
 builder.Services.AddScoped<IDemandeServiceRepository, DemandeServiceRepository>();
 
-
+//builder.Services.AddScoped<INotificationRepository,NotificationRepository>();
 
 // Ajouter la configuration Cloudinary directement
 var cloudinary = new Cloudinary(new Account(

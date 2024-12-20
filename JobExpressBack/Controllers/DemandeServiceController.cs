@@ -26,15 +26,15 @@ namespace JobExpressBack.Controllers
 
         // Méthode pour obtenir toutes les demandes (uniquement pour les administrateurs)
         [HttpGet("getAllDemandeService")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Client,Professionnel,Admin")]
         public async Task<IActionResult> GetAllDemandeService()
         {
             // Vérifier si l'utilisateur est un administrateur
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-            if (userRole != "Admin")
+         /*   if (userRole != "Admin")
             {
                 return Unauthorized(new { Message = "Accès interdit. Uniquement les administrateurs peuvent voir toutes les demandes." });
-            }
+            }*/
 
             var demandeServices = await demandeServiceRepo.GetAllWithDetails();
             return Ok(demandeServices);
