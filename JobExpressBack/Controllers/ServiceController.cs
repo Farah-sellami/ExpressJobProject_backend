@@ -1,11 +1,10 @@
 ﻿using JobExpressBack.Models;
 using JobExpressBack.Models.Entities;
-using JobExpressBack.Models.Repositories;
 using JobExpressBack.Models.Repositories.RepoServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-//  more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace JobExpressBack.Controllers
 {
